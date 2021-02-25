@@ -1,0 +1,8 @@
+vendor
+docker-compose.yml
+Dockerfile
+index.php
+.htaccess
+composer.phar
+.idea
+.vscode

@@ -1,0 +1,19 @@
+{
+    "name": "gustavoeklund/expr-php",
+    "description": "Ultra lightweight, blazing fast and simple to use RESTful library",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Gustavo Eklund",
+            "email": "gustavo04616@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Expr\\": "./src"
+        }
+    }
+}
