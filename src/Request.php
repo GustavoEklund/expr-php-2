@@ -26,19 +26,9 @@ class Request
             throw new RuntimeException('Global variables are not defined.');
         }
 
-        $php_input = file_get_contents('php://input');
         $request_url = filter_var((string) @$_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
 
-        try {
-            $php_input_array = json_decode($php_input, true, 512, JSON_THROW_ON_ERROR);
-            if (!is_array($php_input_array)) {
-                $php_input_array = [];
-            }
-        } catch (JsonException $json_exception) {
-            $php_input_array = [];
-        }
-
-        $this->body = array_merge($_POST, $php_input_array);
+        $this->body = array_merge($_POST, $this->getPhpInputAsArray());
         $this->port = (string) @$_SERVER['REMOTE_PORT'];
         $this->ip = (string) @$_SERVER['REMOTE_ADDR'];
         $this->method = (string) @$_SERVER['REQUEST_METHOD'];
@@ -51,6 +41,21 @@ class Request
     public function areGlobalsDefined(): bool
     {
         return isset($_POST, $_GET) && !empty($_SERVER);
+    }
+
+    /** @return string[] */
+    public function getPhpInputAsArray(): array
+    {
+        try {
+            $php_input = file_get_contents('php://input');
+            $php_input_array = json_decode($php_input, true, 512, JSON_THROW_ON_ERROR);
+            if (!is_array($php_input_array)) {
+                return [];
+            }
+            return $php_input_array;
+        } catch (JsonException $json_exception) {
+            return [];
+        }
     }
 
     public function getHeader(string $header): string
