@@ -1,17 +1,5 @@
 <?php
 
-namespace Expr {
-    function file_get_contents(): string {
-        return '{"any_key":"any_value"}';
-    }
-}
-
-namespace Expr\Tests\Mocks {
-    function file_get_contents(): string {
-        return 'invalid_input';
-    }
-}
-
 namespace Expr\Tests {
     use Expr\Request;
     use PHPUnit\Framework\TestCase;
@@ -49,12 +37,6 @@ namespace Expr\Tests {
         public function test_assert_areGlobalsDefined_returns_true_if_required_globals_are_defined(): void
         {
             self::assertTrue($this->sut->areGlobalsDefined());
-        }
-
-        public function test_assert_getPhpInputAsArray_invalid_input_returns_empty_array(): void
-        {
-            $sut = new Mocks\Request();
-            self::assertEmpty($sut->getPhpInputAsArray());
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Expr;
 
-use JsonException;
+use Expr\Helpers\Stream;
 use RuntimeException;
 
 /**
@@ -26,13 +26,13 @@ class Request
             throw new RuntimeException('Global variables are not defined.');
         }
 
-        $request_url = filter_var((string) @$_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
+        $request_url = $this->getRequestUrl();
 
-        $this->body = array_merge($_POST, $this->getPhpInputAsArray());
+        $this->body = array_merge($_POST, Stream::getPhpInputAsArray());
         $this->port = (string) @$_SERVER['REMOTE_PORT'];
         $this->ip = (string) @$_SERVER['REMOTE_ADDR'];
         $this->method = (string) @$_SERVER['REQUEST_METHOD'];
-        $this->route = (string) $request_url;
+        $this->route = $request_url;
         $this->params = explode('/', explode('?', ltrim($request_url, '/'))[0]);
         $this->protocol = (string) @$_SERVER['REQUEST_SCHEME'];
         $this->query = $_REQUEST;
@@ -43,19 +43,9 @@ class Request
         return isset($_POST, $_GET) && !empty($_SERVER);
     }
 
-    /** @return string[] */
-    public function getPhpInputAsArray(): array
+    public function getRequestUrl(): string
     {
-        try {
-            $php_input = file_get_contents('php://input');
-            $php_input_array = json_decode($php_input, true, 512, JSON_THROW_ON_ERROR);
-            if (!is_array($php_input_array)) {
-                return [];
-            }
-            return $php_input_array;
-        } catch (JsonException $json_exception) {
-            return [];
-        }
+        return (string) filter_var((string) @$_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
     }
 
     public function getHeader(string $header): string
