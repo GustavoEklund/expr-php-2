@@ -34,4 +34,9 @@ class RequestTest extends TestCase
         $_SERVER = [];
         self::assertFalse($this->sut->areGlobalsDefined());
     }
+
+    public function test_assert_areGlobalsDefined_returns_true_if_required_globals_are_defined(): void
+    {
+        self::assertTrue($this->sut->areGlobalsDefined());
+    }
 }
