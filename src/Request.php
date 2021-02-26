@@ -22,7 +22,7 @@ class Request
 
     public function __construct()
     {
-        if (!isset($_POST, $_GET) || empty($_SERVER)) {
+        if (!$this->areGlobalsDefined()) {
             throw new RuntimeException('Global variables are not defined.');
         }
 
@@ -38,14 +38,19 @@ class Request
             $php_input_array = [];
         }
 
-        $this->setBody(array_merge($_POST, $php_input_array));
-        $this->setPort((string) @$_SERVER['REMOTE_PORT']);
-        $this->setIp((string) @$_SERVER['REMOTE_ADDR']);
-        $this->setMethod((string) @$_SERVER['REQUEST_METHOD']);
-        $this->setRoute((string) $request_url);
-        $this->setParams(explode('/', explode('?', ltrim($request_url, '/'))[0]));
-        $this->setProtocol((string) @$_SERVER['REQUEST_SCHEME']);
-        $this->setQuery($_REQUEST);
+        $this->body = array_merge($_POST, $php_input_array);
+        $this->port = (string) @$_SERVER['REMOTE_PORT'];
+        $this->ip = (string) @$_SERVER['REMOTE_ADDR'];
+        $this->method = (string) @$_SERVER['REQUEST_METHOD'];
+        $this->route = (string) $request_url;
+        $this->params = explode('/', explode('?', ltrim($request_url, '/'))[0]);
+        $this->protocol = (string) @$_SERVER['REQUEST_SCHEME'];
+        $this->query = $_REQUEST;
+    }
+
+    public function areGlobalsDefined(): bool
+    {
+        return isset($_POST, $_GET) && !empty($_SERVER);
     }
 
     public function getHeader(string $header): string
@@ -80,19 +85,9 @@ class Request
         return $sanitized_body;
     }
 
-    public function setBody(array $body): void
-    {
-        $this->body = $body;
-    }
-
     public function getPort(): string
     {
         return $this->port;
-    }
-
-    public function setPort(string $port): void
-    {
-        $this->port = $port;
     }
 
     public function getIp(): string
@@ -100,19 +95,9 @@ class Request
         return $this->ip;
     }
 
-    public function setIp(string $ip): void
-    {
-        $this->ip = $ip;
-    }
-
     public function getMethod(): string
     {
         return $this->method;
-    }
-
-    public function setMethod(string $method): void
-    {
-        $this->method = $method;
     }
 
     public function getParams(): array
@@ -120,19 +105,9 @@ class Request
         return $this->params;
     }
 
-    public function setParams(array $params): void
-    {
-        $this->params = $params;
-    }
-
     public function getProtocol(): string
     {
         return $this->protocol;
-    }
-
-    public function setProtocol(string $protocol): void
-    {
-        $this->protocol = $protocol;
     }
 
     public function getQuery(): array
@@ -140,18 +115,8 @@ class Request
         return $this->query;
     }
 
-    public function setQuery(array $query): void
-    {
-        $this->query = $query;
-    }
-
     public function getRoute(): string
     {
         return $this->route;
-    }
-
-    public function setRoute(string $route): void
-    {
-        $this->route = $route;
     }
 }
