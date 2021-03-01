@@ -1,6 +1,6 @@
 <?php
 
-namespace Expr;
+namespace Expr\Http;
 
 use Expr\Helpers\Stream;
 use RuntimeException;

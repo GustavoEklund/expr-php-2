@@ -19,12 +19,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Expr\\": "./src"
+            "Expr\\Http\\": "./src/Http",
+            "Expr\\Helpers\\": "./src/Helpers"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Expr\\Tests\\": "./tests"
+            "Expr\\Tests\\Http\\": "./tests/Http"
         }
     }
 }
