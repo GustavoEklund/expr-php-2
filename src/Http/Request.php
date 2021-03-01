@@ -100,6 +100,11 @@ class Request
         return $this->params;
     }
 
+    public function setParams(array $params): void
+    {
+        $this->params = $params;
+    }
+
     public function getProtocol(): string
     {
         return $this->protocol;
