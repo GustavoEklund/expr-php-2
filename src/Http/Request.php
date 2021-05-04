@@ -19,6 +19,7 @@ class Request
     private string $protocol; /** tém o protocolo da requisição: http ou (requisições TLS) https. */
     private array $query; /** Esta propriedade é um objeto contendo uma propriedade para cada parâmetro de busca. */
     private string $route; /** tém a rota chamada na requisição. */
+    private bool $next_called = false;
 
     public function __construct()
     {
@@ -118,5 +119,20 @@ class Request
     public function getRoute(): string
     {
         return $this->route;
+    }
+
+    public function next(): void
+    {
+        $this->next_called = true;
+    }
+
+    public function resetNext(): void
+    {
+        $this->next_called = false;
+    }
+
+    public function didNextCalled(): bool
+    {
+        return $this->next_called;
     }
 }

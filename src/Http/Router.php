@@ -27,6 +27,10 @@ class Router
 
         foreach ($action as $controller) {
             $controller($this->request, $this->response);
+            if (!$this->request->didNextCalled()) {
+                return;
+            }
+            $this->request->resetNext();
         }
     }
 
@@ -133,7 +137,7 @@ class Router
 
             $parsed_route[$new_key] = (strpos($item, ':') === 0) ? $request_path_array[$key] : null;
 
-            if ($parsed_route[$new_key] === null && $path_array[$key] !== $request_path_array[$key]) {
+            if ($parsed_route[$new_key] === null && $item !== $request_path_array[$key]) {
                 return null;
             }
         }
