@@ -2,6 +2,8 @@
 
 namespace Expr\Http;
 
+use Closure;
+
 class Router
 {
     private bool $route_matched = false;
@@ -26,6 +28,9 @@ class Router
         $this->request->setParams($params);
 
         foreach ($action as $controller) {
+            if (!$controller instanceof Closure) {
+                return;
+            }
             $controller($this->request, $this->response);
             if (!$this->request->didNextCalled()) {
                 return;
