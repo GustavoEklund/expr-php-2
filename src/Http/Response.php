@@ -33,7 +33,7 @@ class Response
      * @param string $value
      * @return Response
      */
-    public function send($value = ''): Response
+    public function send(string $value = ''): Response
     {
         $this->setHeader('Content-Type', 'text/plain');
         $this->body = $value;
@@ -74,7 +74,7 @@ class Response
      */
     private function setHeader(string $header_name, string $value): Response
     {
-        @header("{$header_name}: {$value}");
+        @header("$header_name: $value");
         return $this;
     }
 
