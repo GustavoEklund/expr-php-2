@@ -49,9 +49,20 @@ class Request
         return (string) filter_var((string) @$_SERVER['REQUEST_URI'], FILTER_SANITIZE_URL);
     }
 
-    public function getHeader(string $header): string
+    public function getHeaders(): array
     {
         $headers = apache_request_headers();
+
+        if (empty($headers)) {
+            return [];
+        }
+
+        return $headers;
+    }
+
+    public function getHeader(string $header): string
+    {
+        $headers = $this->getHeaders();
 
         if (!$headers) {
             return '';
