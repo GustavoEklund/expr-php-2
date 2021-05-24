@@ -59,7 +59,7 @@ class Router
      */
     public function post(string $uri, ...$action): void
     {
-        if ($this->route_matched || !isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'GET') {
+        if ($this->route_matched || !isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
             return;
         }
 
@@ -72,7 +72,7 @@ class Router
      */
     public function put(string $uri, ...$action): void
     {
-        if ($this->route_matched || !isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'GET') {
+        if ($this->route_matched || !isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'PUT') {
             return;
         }
 
@@ -85,7 +85,7 @@ class Router
      */
     public function delete(string $uri, ...$action): void
     {
-        if ($this->route_matched || !isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'GET') {
+        if ($this->route_matched || !isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'DELETE') {
             return;
         }
 
@@ -98,7 +98,7 @@ class Router
      */
     public function patch(string $uri, ...$action): void
     {
-        if ($this->route_matched || !isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'GET') {
+        if ($this->route_matched || !isset($_SERVER['REQUEST_METHOD']) || $_SERVER['REQUEST_METHOD'] !== 'PATCH') {
             return;
         }
 
