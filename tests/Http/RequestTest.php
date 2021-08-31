@@ -39,4 +39,24 @@ class RequestTest extends TestCase
     {
         self::assertTrue($this->sut->areGlobalsDefined());
     }
+
+    public function test_assert_getBody_return_sub_keys_correctly(): void
+    {
+        $_POST = [
+            'any_key' => 'any_value',
+            'any_compound_key' => [
+                'any_sub_key' => 'any_sub_value',
+                'any_compound_key_2' => [
+                    'other_key' => 'other_value'
+                ],
+                'any_sub_key2' => 'any_sub_value2'
+            ],
+            'any_key_2' => 'any_value2'
+        ];
+
+        $this->sut = new Request();
+        $body = $this->sut->getBody();
+
+        self::assertEquals($_POST, $body);
+    }
 }
