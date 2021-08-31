@@ -83,12 +83,19 @@ class Request
             return $this->body;
         }
 
-        $sanitized_body = [];
+        return $this->sanitizeArray($this->body);
+    }
 
-        foreach ($this->body as $key => $value) {
+    private function sanitizeArray(array $values): array
+    {
+        $sanitized_body = [];
+        foreach ($values as $key => $value) {
+            if (is_array($value)) {
+                $sanitized_body[$key] = $this->sanitizeArray($value);
+                continue;
+            }
             $sanitized_body[$key] = filter_var($value, FILTER_SANITIZE_SPECIAL_CHARS);
         }
-
         return $sanitized_body;
     }
 
