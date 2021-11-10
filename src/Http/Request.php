@@ -34,7 +34,7 @@ class Request
         $this->ip = (string) @$_SERVER['REMOTE_ADDR'];
         $this->method = (string) @$_SERVER['REQUEST_METHOD'];
         $this->route = $request_url;
-        $this->params = explode('/', explode('?', ltrim($request_url, '/'))[0]);
+        $this->params = explode('/', explode('?', ltrim($request_url, '/'), 2)[0]);
         $this->protocol = (string) @$_SERVER['REQUEST_SCHEME'];
         $this->query = $_REQUEST;
     }
@@ -94,7 +94,11 @@ class Request
                 $sanitized_body[$key] = $this->sanitizeArray($value);
                 continue;
             }
-            $sanitized_body[$key] = filter_var($value, FILTER_SANITIZE_SPECIAL_CHARS);
+            if (is_string($value)) {
+                $sanitized_body[$key] = filter_var($value, FILTER_SANITIZE_SPECIAL_CHARS);
+                continue;
+            }
+            $sanitized_body[$key] = $value;
         }
         return $sanitized_body;
     }
