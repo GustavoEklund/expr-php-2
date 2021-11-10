@@ -1,5 +1,5 @@
 {
-    "version": "2.2.3",
+    "version": "2.2.4",
     "name": "gustavoeklund/expr-php",
     "description": "Ultra lightweight, blazing fast and simple to use RESTful API library",
     "type": "library",
